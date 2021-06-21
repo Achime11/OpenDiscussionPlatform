@@ -1,11 +1,11 @@
 # OpenDiscussionPlatform
 
  Open discussion platform with the following functionalities:
-- to have 4 types of users: unregistered visitor, registered user,
+- to have 4 types of users: unregistered user, registered user,
 moderator and administrator.
 - several discussion categories will appear on the first page. Every
 category there will be several topics for discussion.
-- topics in a category can be viewed in a new page. In case of
+- topics in a category can be viewed on a new page. In case of
 which one category has more topics for discussion, they will be displayed
 paginated.
 - the discussions or the answers will be sorted according to established criteria
@@ -20,8 +20,7 @@ initiate new topics of discussion and can send answers to other discussions.
 Discussion topics and messages already sent can be modified and deleted
 later author.
 - the moderators take care of deleting the discussions and messages they contained
-inappropriate and placing the topics of discussion in the appropriate category
-their.
+inappropriate and placing the topics of discussion in the appropriate category.
 - the administrator adds new categories of topics (can make CRUD on
 categories). The administrator is also the one who associates or revokes
 the rights of forum members.
