@@ -1,0 +1,51 @@
+﻿<div>
+    <h2>Showing discussion: @ViewBag.Discussion.Title</h2>
+
+    @if (TempData.ContainsKey("message")) {
+        if (TempData.ContainsKey("warning")) {
+            TempData.Remove("warning");
+            <div class="alert alert-warning  alert-dismissible" role="alert">
+                @TempData["message"]
+            </div>
+        } else {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                @TempData["message"]
+            </div>
+        }
+    }
+
+    <div class="card bg-light mb-3" style="max-width: 180rem;">
+        <div class="card-body">
+            <h5 class="card-title"><strong>@ViewBag.Discussion.Title</strong></h5>
+            <p class="card-text">
+                @ViewBag.Discussion.Text
+                <br />
+                <br />
+            </p>
+            <a class="btn btn-outline-danger" href="/Discussion/Delete/@ViewBag.Discussion.Id" role="button">Delete</a>
+            <a class="btn btn-success" href="/Discussion/Update/@ViewBag.Discussion.Id">Edit</a>
+        </div>
+        <div class="card-footer">
+            <span class="badge badge-success">@ViewBag.Discussion.CreationDate</span>
+        </div>
+    </div>
+    <br />
+
+    <p>
+        @Html.ActionLink("Add your comment", "New","Comment",new { discussion_id=ViewBag.Discussion.Id},null)
+    </p>
+    @foreach (var comment in @ViewBag.Comments) {
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <a href="/Category/Show/@comment.Id" target="_blank">
+                </a>
+                <div>
+                    <a class="btn btn-success" href="/Comment/Update/@comment.Id">Edit</a>
+                    <a class="btn btn-danger" href="/Comment/Delete/@comment.Id">Delete</a>
+                </div>
+            </div>
+            <p class="mb-1">@comment.Content</p>
+            <small class="float-xs-right"><span class="badge badge-success">@comment.Date</span></small>
+        </div>
+    }
+</div>

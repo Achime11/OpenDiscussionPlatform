@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewBag.Title = "Search";
+}
+
+<h2>Search</h2>
+
+
+
+
+<div class="mb-4">
+    @using (Ajax.BeginForm("Search", "Home", new AjaxOptions { HttpMethod = "POST", InsertionMode = InsertionMode.Replace, UpdateTargetId = "resultArea" })) {
+        <div class="form-group">
+            <label for="categoryFilterId">Search in category:</label>
+            <select id="categoryFilterId" name="categoryFilter" class="form-control">
+                <option value="0" selected="">All</option>
+                @foreach (var category in ViewBag.Categories) {
+                    <option value="@category.Id">@category.Name</option>
+                }
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="scopeSearchId">Search in:</label>
+            <select multiple id="scopeSearchId" name="scopeSearch" class="form-control">
+                <option value="0" selected="">All</option>
+                <option value="1">Discussions</option>
+                <option value="2">Comments</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="phraseSearchId">Search phrase:</label>
+            <input type="text" class="form-control" name="phraseSearch" id="phraseSearchId" aria-describedby="phraseHelp">
+            <small id="phraseHelp" class="form-text text-muted">All phrases similar to this one will be returned.</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary d-block">Submit</button>
+    }
+
+</div>
+
+<hr />
+
+<div>
+    <h4>Search Results:</h4>
+
+    <div id="resultArea">
+        <div class="list-group">
+            <div class="list-group-item">None</div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    @Scripts.Render("~/bundles/jqueryAjax")
+}

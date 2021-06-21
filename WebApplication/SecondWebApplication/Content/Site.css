@@ -1,0 +1,5 @@
+﻿body {
+}
+.edit_controls {
+    flex-shrink: 0; /*fix for justify-content between. Don;t let the buttons be squished by other content*/
+}

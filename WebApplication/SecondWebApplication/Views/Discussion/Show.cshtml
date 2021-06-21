@@ -1,0 +1,56 @@
+﻿@{
+    ViewBag.Title = "Show Comments";
+}
+
+
+@Html.Partial("_Notification")
+@Html.Partial("_RegistryPathSelector")
+
+<div class="card bg-light mb-3" style="max-width: 180rem;">
+    <div class="card-body">
+        <h5 class="card-title"><strong>@ViewBag.Discussion.Title</strong></h5>
+        <p class="card-text">
+            @ViewBag.Discussion.Text
+            <br />
+            <br />
+        </p>
+        @if (ViewBag.afisareButoaneDiscussion == true) {
+            <a class="btn btn-outline-danger" href="/Discussion/Delete/@ViewBag.Discussion.Id" role="button">Delete</a>
+            <a class="btn btn-success" href="/Discussion/Update/@ViewBag.Discussion.Id">Edit</a>
+        }
+    </div>
+    <div class="card-footer">
+        <span class="badge badge-success">@ViewBag.Discussion.CreationDate</span>
+    </div>
+</div>
+<br />
+
+@if (User.IsInRole("User") || User.IsInRole("Admin")) {
+    <p>
+        @Html.ActionLink("Add your comment", "New", "Comment", new { discussion_id = ViewBag.Discussion.Id }, new { @class = "btn btn-primary" })
+    </p>
+}
+
+<div class="list-group list-group-flush">
+    @foreach (var comment in @ViewBag.Comments) {
+        <div class="list-group-item">
+            <small class="mb-1 font-italic">
+                <span class="font-weight-lighter">@comment.User.UserName</span> wrote on <span>@comment.Date</span> :
+            </small>
+            <div class="d-flex w-100 justify-content-between">
+                <p class="mb-1" style="word-wrap:anywhere">@comment.Content</p>
+                <div class="ml-4">
+                    @if (comment.UserId == User.Identity.GetUserId() || User.IsInRole("Moderator") || User.IsInRole("Admin")) {
+                        <div class="btn-group btn-group-sm edit_controls">
+                            @if (!User.IsInRole("Moderator")) {
+                                <a class="btn btn-success" href="/Comment/Update/@comment.Id">Edit</a>
+                            }
+                            <a class="btn btn-danger" href="/Comment/Delete/@comment.Id">Delete</a>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+    }
+</div>

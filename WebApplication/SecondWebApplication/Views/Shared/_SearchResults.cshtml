@@ -1,0 +1,14 @@
+﻿<div class="list-group">
+    @if (ViewBag.Results == null) {
+        <div class="list-group-item">None</div>
+    } else {
+        foreach (var result in ViewBag.Results) {
+            <a href="@result.link" class="list-group-item list-group-item-action">
+                <span class="mb-1 text-primary">@result.path</span>
+                @if (result.extra != null) {
+                    <p class="mt-1 mb-1 font-weight-light font-italic" style="word-wrap:anywhere">@result.extra</p>
+                }
+            </a>
+        }
+    }
+</div>

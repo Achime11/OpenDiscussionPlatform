@@ -1,0 +1,50 @@
+﻿
+@{
+    ViewBag.Title = "Categories Viewer";
+}
+
+
+<div>
+    @if (TempData.ContainsKey("message")) {
+        if (TempData.ContainsKey("warning")) {
+            TempData.Remove("warning");
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                @TempData["message"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        } else {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                @TempData["message"]
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        }
+
+    }
+
+    <div class="mb-3">
+        <a type="button" class="btn btn-primary" href="/Category/New">Add new Category</a>
+    </div>
+
+    <div class="list-group">
+        @foreach (var category in ViewBag.Categories) {
+            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <a href="/Category/Show/@category.Id">
+                        <h5 class="mb-1">@category.Name</h5>
+                    </a>
+
+                    <div>
+                        <a class="btn btn-success" href="/Category/Update/@category.Id">Edit</a>
+                        <a class="btn btn-danger" href="/Category/Delete/@category.Id">Delete</a>
+                    </div>
+                </div>
+                <p class="mb-1">@category.Description</p>
+            </div>
+        }
+
+    </div>
+</div>

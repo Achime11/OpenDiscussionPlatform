@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewBag.Title = "Categories Viewer";
+}
+
+
+<div>
+    @Html.Partial("_Notification")
+    @Html.Partial("_RegistryPathSelector")
+
+
+    @if (User.IsInRole("Admin")) {
+        <div class="mb-3">
+            <a type="button" class="btn btn-primary" href="/Category/New">Add new Category</a>
+        </div>
+    }
+
+    @foreach (var category in ViewBag.Categories) {
+        <div class="card mb-4">
+
+            <div class="card-header d-flex w-100 justify-content-between">
+                <h5>@category.Name</h5>
+
+                @if (User.IsInRole("Admin")) {
+                    <div class="btn-group btn-group-sm">
+                        <a class="btn btn-success" href="/Category/Update/@category.Id">Edit</a>
+                        <a class="btn btn-danger" href="/Category/Delete/@category.Id">Delete</a>
+                    </div>
+                }
+            </div>
+            <div class="card-body">
+                @if (category.Description != null && category.Description != "") {
+                    <p class="card-text">@category.Description</p>
+                }
+                <div>
+                    <a class="btn btn-primary" href="/Category/Show/@category.Id">See discussions</a>
+                </div>
+
+            </div>
+        </div>
+
+    }
+</div>

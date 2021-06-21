@@ -1,0 +1,7 @@
+﻿@if (TempData.ContainsKey("message")) {
+    var alert_class = TempData.ContainsKey("state") ? (TempData["state"].Equals("sucess") ? "alert-success" : (TempData["state"].Equals("warning") ? "alert-warning" : "alert-danger")) : "alert-success";
+
+    <div class="alert @alert_class" role="alert">
+        @TempData["message"]
+    </div>
+}

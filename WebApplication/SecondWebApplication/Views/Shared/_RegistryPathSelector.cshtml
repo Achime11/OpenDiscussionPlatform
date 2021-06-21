@@ -1,0 +1,14 @@
+﻿@if (ViewBag.RegistryPath!=null) {
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            @foreach (var entry in ViewBag.RegistryPath) {
+                if (entry.last_item) {
+                    <li class="breadcrumb-item active">@entry.name</li>
+                } else {
+                    <li class="breadcrumb-item"><a href="@entry.path">@entry.name</a></li>
+                }
+            }
+        </ol>
+    </nav>
+}
+

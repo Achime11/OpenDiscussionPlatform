@@ -1,0 +1,61 @@
+﻿
+@{
+    ViewBag.Title = "Show";
+}
+
+<h2>Showing discussions for category: @((ViewBag.Category?.Name) ?? "<not found>"), page:@ViewBag.Page</h2>
+
+@if (TempData.ContainsKey("message"))
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["message"]
+    </div>
+}
+<div class="mb-1 mt-4">
+    <a type="button" class="btn btn-primary" href="/Discussion/New/@ViewBag.Category.Id">Add new Discussion</a>
+</div>
+
+<div class="mt-2">
+    <div class="list-group">
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" id="sort_title_btn">Titlu <img data-state="down" class="sort_img" src="~/Images/sort-down.png" /></h5>
+                <nav id="discussions_pagination">
+                    <ul class="pagination pagination-sm">
+                        @for (int i = 0; i < ViewBag.CountPages; i++)
+                        {
+                            <li class="page-item @(i==ViewBag.Page?"disabled":"")"><a class="page-link" href="/Category/Show/@ViewBag.Category.Id/@i">@(i+1)</a></li>
+                        }
+                    </ul>
+                </nav>
+                <h5 class="mb-1" id="sort_user_btn">Creator <img data-state="down" class="sort_img" src="~/Images/sort-down.png" /></h5>
+            </div>
+        </div>
+
+        @{ if (ViewBag.Category != null)
+            {
+                foreach (var discussion in ViewBag.Discussions)
+                {
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <a href="/Discussion/Show/@discussion.Id/" target="_blank">
+                                        <h5 class="mb-1">@discussion.Title</h5>
+                                    </a>
+                                    <small>@discussion.CreationDate</small>
+                                    <small>Created by @discussion.User.FirstName</small>
+                                    <div>
+                                        <a class="btn btn-success" href="/Discussion/Update/@discussion.Id">Edit</a>
+                                        <a class="btn btn-danger" href="/Discussion/Delete/@discussion.Id">Delete</a>
+                                    </div>
+                                </div>
+                        <p class="mb-1" style="word-wrap:break-word">@discussion.Text</p>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/CategoryShow.js"></script>
+}

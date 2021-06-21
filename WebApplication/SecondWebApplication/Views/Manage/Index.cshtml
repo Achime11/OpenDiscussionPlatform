@@ -1,0 +1,105 @@
+﻿@model SecondWebApplication.Models.IndexViewModel
+@{
+    ViewBag.Title = "Manage";
+}
+@Html.Partial("_Notification")
+
+<p class="text-success">@ViewBag.StatusMessage</p>
+<div>
+    @if (User.IsInRole("Admin"))
+    {
+        <div>
+            <h4>Manage other accounts</h4>
+            <a class="btn btn-success" href="/Manage/ListUsers">Show List of Users</a>
+            <hr />
+        </div>
+    }
+    <h4>Your account</h4>
+    <div class="mt-5">
+        <dl class="dl-horizontal">
+            <dt>User Name:</dt>
+            <dd>
+                @ViewBag.UserName
+            </dd>
+
+            <dt>Email:</dt>
+            <dd>
+                @ViewBag.Email
+
+            </dd>
+            <a class="btn btn-success" href="/Manage/Update">Edit your profile</a>
+            <dt>Password:</dt>
+            <dd>
+                @if (Model.HasPassword)
+                {
+                    <a class="btn btn-success" href="/Manage/ChangePassword">Change your password</a>
+                }
+                else
+                {
+                    <a class="btn btn-success" href="/Manage/Create">Set your password</a>
+                }
+            </dd>
+            <dt>External Logins:</dt>
+            <dd>
+                @Model.Logins.Count
+                <a class="btn btn-success" href="/Manage/ManageLogins">Manage</a>
+            </dd>
+            @*
+                Phone Numbers can used as a second factor of verification in a two-factor authentication system.
+
+                 See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication using SMS.
+
+                 Uncomment the following block after you have set up two-factor authentication
+            *@
+            @*
+                <dt>Phone Number:</dt>
+                <dd>
+                    @(Model.PhoneNumber ?? "None")
+                    @if (Model.PhoneNumber != null)
+                    {
+                        <br />
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Change", "AddPhoneNumber")&nbsp;&nbsp;]</text>
+                        using (Html.BeginForm("RemovePhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <text>[<input type="submit" value="Remove" class="btn-link" />]</text>
+                        }
+                    }
+                    else
+                    {
+                        <text>[&nbsp;&nbsp;@Html.ActionLink("Add", "AddPhoneNumber")
+                    }
+                </dd>
+            *@
+            @*<dt>Two-Factor Authentication:</dt>*@
+            <!--<dd>
+                <p>
+                    There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication.
+                </p>-->
+            @*@if (Model.TwoFactor)
+                {
+                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Enabled
+                        <input type="submit" value="Disable" class="btn btn-link" />
+                        </text>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <text>Disabled
+                        <input type="submit" value="Enable" class="btn btn-link" />
+                        </text>
+                    }
+                }*@
+            <!--</dd>-->
+        </dl>
+    </div>
+
+</div>

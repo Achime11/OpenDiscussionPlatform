@@ -1,0 +1,69 @@
+﻿
+@{
+    ViewBag.Title = "Show Category";
+}
+
+<h2 class="mb-4">Discussions for category <span class="font-italic">"@ViewBag.Category.Name"</span>  on page @(ViewBag.Page + 1)</h2>
+
+@Html.Partial("_Notification")
+@Html.Partial("_RegistryPathSelector")
+
+
+@if (User.IsInRole("User") || User.IsInRole("Admin")) {
+    <div class="mb-1 mt-4">
+        <a type="button" class="btn btn-primary" href="/Discussion/New/@ViewBag.Category.Id">Add new Discussion</a>
+    </div>
+}
+
+<div id="index_data" style="display:none" data-page="@ViewBag.Page" data-categid="@ViewBag.Category.Id" data-sortparam="@ViewBag.SortParam" data-sortdirection="@ViewBag.SortParam"></div>
+
+<div class="mt-2">
+    <div class="list-group">
+        <div class="list-group-item flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1" id="sort_title_btn">Titlu <img data-state="@(ViewBag.SortParam =="name"?ViewBag.SortDirection:"")" class="sort_img" src="" /></h5>
+                <nav id="discussions_pagination" data-page="@ViewBag.Page">
+                    <ul class="pagination pagination-sm">
+                        @for (int i = 0; i < ViewBag.CountPages; i++)
+                        {
+                            <li class="page-item @(i==ViewBag.Page?"disabled":"")"><a class="page-link" href="/Category/Show/@ViewBag.Category.Id/?page=@i&sortparam=@ViewBag.SortParam&sortdirection=@ViewBag.SortDirection">@(i+1)</a></li>
+                        }
+                    </ul>
+                </nav>
+                <h5 class="mb-1" id="sort_user_btn">Creator <img data-state="@(ViewBag.SortParam =="creator"?ViewBag.SortDirection:"")" class="sort_img" src="" /></h5>
+            </div>
+        </div>
+
+        @{ if (ViewBag.Category != null)
+            {
+                foreach (var discussion in ViewBag.Discussions)
+                {
+                    <div class="list-group-item list-group-item-action">
+                        <div class="d-flex w-100 justify-content-between">
+                            <a href="/Discussion/Show/@discussion.Id/" target="_blank">
+                                <h5 class="mb-1">@discussion.Title</h5>
+                            </a>
+                            <small>@discussion.CreationDate.ToString("dd-MM-yyyy")</small>
+                            @if (discussion.UserId != User.Identity.GetUserId())
+                            {
+                                <small><span class="d-none d-md-inline">Created by </span>@discussion.User.UserName</small>
+                            }
+                            @if (discussion.UserId == User.Identity.GetUserId() || User.IsInRole("Moderator") || User.IsInRole("Admin"))
+                            {
+                                <div>
+                                    <a class="btn btn-success" href="/Discussion/Update/@discussion.Id">Edit</a>
+                                    <a class="btn btn-danger" href="/Discussion/Delete/@discussion.Id">Delete</a>
+                                </div>
+                            }
+                        </div>
+                        <p class="mb-1" style="word-wrap:break-word">@discussion.Text</p>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/CategoryShow.js"></script>
+}
